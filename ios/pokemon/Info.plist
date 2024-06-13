@@ -2,6 +2,28 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+  <key>UIAppFonts</key>
+  <array>
+    <string>AntDesign.ttf</string>
+    <string>Entypo.ttf</string>
+    <string>EvilIcons.ttf</string>
+    <string>Feather.ttf</string>
+    <string>FontAwesome.ttf</string>
+    <string>FontAwesome5_Brands.ttf</string>
+    <string>FontAwesome5_Regular.ttf</string>
+    <string>FontAwesome5_Solid.ttf</string>
+    <string>FontAwesome6_Brands.ttf</string>
+    <string>FontAwesome6_Regular.ttf</string>
+    <string>FontAwesome6_Solid.ttf</string>
+    <string>Foundation.ttf</string>
+    <string>Ionicons.ttf</string>
+    <string>MaterialIcons.ttf</string>
+    <string>MaterialCommunityIcons.ttf</string>
+    <string>SimpleLineIcons.ttf</string>
+    <string>Octicons.ttf</string>
+    <string>Zocial.ttf</string>
+    <string>Fontisto.ttf</string>
+  </array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -26,7 +48,6 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
@@ -48,5 +69,51 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>LSApplicationCategoryType</key>
+	<string>&lt;key&gt;UIAppFonts&lt;/key&gt;
+&lt;array&gt;
+  &lt;string&gt;AntDesign.ttf&lt;/string&gt;
+  &lt;string&gt;Entypo.ttf&lt;/string&gt;
+  &lt;string&gt;EvilIcons.ttf&lt;/string&gt;
+  &lt;string&gt;Feather.ttf&lt;/string&gt;
+  &lt;string&gt;FontAwesome.ttf&lt;/string&gt;
+  &lt;string&gt;FontAwesome5_Brands.ttf&lt;/string&gt;
+  &lt;string&gt;FontAwesome5_Regular.ttf&lt;/string&gt;
+  &lt;string&gt;FontAwesome5_Solid.ttf&lt;/string&gt;
+  &lt;string&gt;FontAwesome6_Brands.ttf&lt;/string&gt;
+  &lt;string&gt;FontAwesome6_Regular.ttf&lt;/string&gt;
+  &lt;string&gt;FontAwesome6_Solid.ttf&lt;/string&gt;
+  &lt;string&gt;Foundation.ttf&lt;/string&gt;
+  &lt;string&gt;Ionicons.ttf&lt;/string&gt;
+  &lt;string&gt;MaterialIcons.ttf&lt;/string&gt;
+  &lt;string&gt;MaterialCommunityIcons.ttf&lt;/string&gt;
+  &lt;string&gt;SimpleLineIcons.ttf&lt;/string&gt;
+  &lt;string&gt;Octicons.ttf&lt;/string&gt;
+  &lt;string&gt;Zocial.ttf&lt;/string&gt;
+  &lt;string&gt;Fontisto.ttf&lt;/string&gt;
+&lt;/array&gt;</string>
+	<key>CFBundleGetInfoString</key>
+	<string>&lt;key&gt;UIAppFonts&lt;/key&gt;
+&lt;array&gt;
+  &lt;string&gt;AntDesign.ttf&lt;/string&gt;
+  &lt;string&gt;Entypo.ttf&lt;/string&gt;
+  &lt;string&gt;EvilIcons.ttf&lt;/string&gt;
+  &lt;string&gt;Feather.ttf&lt;/string&gt;
+  &lt;string&gt;FontAwesome.ttf&lt;/string&gt;
+  &lt;string&gt;FontAwesome5_Brands.ttf&lt;/string&gt;
+  &lt;string&gt;FontAwesome5_Regular.ttf&lt;/string&gt;
+  &lt;string&gt;FontAwesome5_Solid.ttf&lt;/string&gt;
+  &lt;string&gt;FontAwesome6_Brands.ttf&lt;/string&gt;
+  &lt;string&gt;FontAwesome6_Regular.ttf&lt;/string&gt;
+  &lt;string&gt;FontAwesome6_Solid.ttf&lt;/string&gt;
+  &lt;string&gt;Foundation.ttf&lt;/string&gt;
+  &lt;string&gt;Ionicons.ttf&lt;/string&gt;
+  &lt;string&gt;MaterialIcons.ttf&lt;/string&gt;
+  &lt;string&gt;MaterialCommunityIcons.ttf&lt;/string&gt;
+  &lt;string&gt;SimpleLineIcons.ttf&lt;/string&gt;
+  &lt;string&gt;Octicons.ttf&lt;/string&gt;
+  &lt;string&gt;Zocial.ttf&lt;/string&gt;
+  &lt;string&gt;Fontisto.ttf&lt;/string&gt;
+&lt;/array&gt;</string>
 </dict>
 </plist>

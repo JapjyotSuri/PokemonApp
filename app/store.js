@@ -14,6 +14,6 @@ export const store = configureStore({
     },
     middleware: (getDefaultMiddleware) => //had to write this code as it was giving a warning as data to be fetched is too much and it was taking over 32ms so it was giving a warning using this code we have disable the serializable check
         getDefaultMiddleware({
-            serializableCheck: false, 
+            serializableCheck: false,
         }),
 });

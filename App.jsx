@@ -84,7 +84,7 @@ const App = () => {
   )
   const Tabnav=({navigation}) => (
     <Tab.Navigator initialRouteName='HomeScreen'
-    screenOptions={({ route }) => ({
+    screenOptions={({ route,navigation }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
         if (route.name === 'Home') {
@@ -99,44 +99,31 @@ const App = () => {
         return <AntDesign name={iconName} size={size} color={color} />;
       },
       tabBarInactiveTintColor: 'black',
+      headerLeft: () => (
+        <MaterialCommunityIcons
+          name="pokeball"
+          size={35}
+          backgroundColor="transparent"
+          color="black"
+          onPress={() => navigation.navigate('Home')}
+        />
+      ),
+      headerRight: () => (
+        <AntDesign
+          name="filter"
+          size={30}
+          backgroundColor="transparent"
+          color="black"
+          onPress={() => navigation.navigate('Types of Pokemon')}
+        />
+      )
       
     }
     )} >
       <Tab.Screen name="Home" component={HomeStack} options={{
-      headerShown: false,
-
-    }}/>
-    <Tab.Screen name="Types of Pokemon" component={FilterPage} options={
-      {
-        headerLeft: () => (
-          <MaterialCommunityIcons
-            name="pokeball"
-            size={35}
-            backgroundColor="transparent"
-            color="black"
-            
-          />
-        )
-        
-      }
-    }/>
-      <Tab.Screen name="Favourites" component={Favourites} 
-      options={
-        {
-          headerLeft: () => (
-            <MaterialCommunityIcons
-              name="pokeball"
-              size={35}
-              
-              backgroundColor="transparent"
-              color="black"
-             
-            />
-          ),
-          
-        }
-      }
-      />
+      headerShown: false,}}/>
+    <Tab.Screen name="Types of Pokemon" component={FilterPage}/>
+      <Tab.Screen name="Favourites" component={Favourites} />
     </Tab.Navigator>
   )
   return (

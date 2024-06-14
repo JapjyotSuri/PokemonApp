@@ -1,36 +1,36 @@
-import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import Pokemon from "../Components/Pokemon";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-export const fetchPokemons= createAsyncThunk("fetchPokemons",async (apiurl,{getState})=>{
-    
-    const res=await fetch(apiurl);
-    const data=await res.json();
+export const fetchPokemons = createAsyncThunk("fetchPokemons", async (apiurl) => {
+
+    const res = await fetch(apiurl);
+    const data = await res.json();
     return data.results;
 })
 
-const pokemonsSlice=createSlice({
+const pokemonsSlice = createSlice({
     name: "fetchPoke",
     initialState: {
         isLoading: false,
         data: [],
         isError: false,
         moreLoading: false,
+        isListEnd: false
     },
-    extraReducers: (builder)=>{
-        builder.addCase(fetchPokemons.pending, (state,action)=>{
-            if(action.meta.arg.includes('offset=0')){
-                state.isLoading=true;
+    extraReducers: (builder) => {
+        builder.addCase(fetchPokemons.pending, (state, action) => {
+            if (action.meta.arg.includes('offset=0')) {
+                state.isLoading = true;
             }
-            else{
-                state.moreLoading=true
+            else {
+                state.moreLoading = true
             }
-           
+
 
         })
-        builder.addCase(fetchPokemons.fulfilled,(state,action)=> {
+        builder.addCase(fetchPokemons.fulfilled, (state, action) => {
             state.isLoading = false;
             state.moreLoading = false;
-            if (action.meta.arg.includes('offset=0')) {
+            if (action.meta.arg.includes('offset=0')) {//this is used to access the argument sent in  pokemon component
                 state.data = action.payload;
             } else {
                 state.data = [...state.data, ...action.payload];
@@ -40,12 +40,12 @@ const pokemonsSlice=createSlice({
             }
 
         })
-        builder.addCase(fetchPokemons.rejected,(state)=>{
-        //   console.log("error",action.payload);
-          state.isError=true;
-          state.isLoading=false;
-          state.moreLoading = false;
-    })
+        builder.addCase(fetchPokemons.rejected, (state) => {
+            //   console.log("error",action.payload);
+            state.isError = true;
+            state.isLoading = false;
+            state.moreLoading = false;
+        })
     }
 
 })

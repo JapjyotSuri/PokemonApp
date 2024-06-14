@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 import React from 'react'
 import { useSelector } from 'react-redux'
 
@@ -19,7 +19,6 @@ const Favourites = ({navigation}) => {
           <PokemonCard key={index} {...pokemon.pokemon} navigation={navigation}/>
         ))
       }
-      {/* <Text>{state.favouritePokemons.length}</Text> */}
     </View>
     </ScrollView>
   )
@@ -28,4 +27,3 @@ return null;
 }
 export default Favourites
 
-const styles = StyleSheet.create({})

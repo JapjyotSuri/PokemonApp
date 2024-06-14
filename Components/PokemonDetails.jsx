@@ -1,5 +1,5 @@
-import { Button, Image, Pressable, ScrollView, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { ActivityIndicator, Image, Pressable, ScrollView, Text, View } from 'react-native'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPokemonDetails } from '../Features/pokemonDetailsSlice';
 import LinearGradient from 'react-native-linear-gradient';
@@ -10,22 +10,24 @@ const PokemonDetails = ({ route, navigation }) => {
   const getGradientColors = (type) => {
     switch (type) {
       case 'fire':
-        case 'fighting':
-          case 'dragon':
-            case 'electric':
+      case 'fighting':
+      case 'dragon':
+      case 'electric':
         return ['#fe6300', '#fcdf66'];
-        case 'water':
-          case 'flying':
-          case 'ice':
+      case 'water':
+      case 'flying':
+      case 'ice':
         return ['#0386fe', '#d6edfe'];
-        case 'grass':
-          case 'poison':
-            case 'bug':
+      case 'grass':
+      case 'poison':
+      case 'bug':
         return ['#58c74e', '#e4fae0'];
-        
-          case 'ground':
-            case 'rock': 
-          return ['#412d1e', '#d49364'];
+
+      case 'ground':
+      case 'rock':
+        return ['#412d1e', '#d49364'];
+      case 'fairy':
+        return ['#dd158a', '#fecce6']
       default:
         return ['#727272', '#f8f9f8']; // default gradient
     }
@@ -39,31 +41,32 @@ const PokemonDetails = ({ route, navigation }) => {
         className = 'bg-blue-500';
         break;
       case 'fire':
-        case 'fighting':
-          case 'dragon':
-            case 'electric':
+      case 'fighting':
+      case 'dragon':
+      case 'electric':
         className = 'bg-orange-600';
         break;
       case 'grass':
-        case 'poison':
-          case 'bug':
+      case 'poison':
+      case 'bug':
         className = 'bg-green-500';
         break;
-      
-        case 'ghost':
-          case 'psychic':
-            case 'dark':
-              case 'normal':
+
+      case 'ghost':
+      case 'psychic':
+      case 'dark':
+      case 'normal':
+      case 'steel':
         className = ' bg-slate-600';
         break;
-       
-        case 'fairy':
+
+      case 'fairy':
         className = 'bg-pink-500';
         break;
-        case 'ground':
-          case 'rock':
-            className = ' bg-[#412d1e]';
-            break;        
+      case 'ground':
+      case 'rock':
+        className = ' bg-[#412d1e]';
+        break;
       default:
         className = 'bg-black';
         break;
@@ -79,31 +82,31 @@ const PokemonDetails = ({ route, navigation }) => {
         className = 'bg-blue-400';
         break;
       case 'fire':
-        case 'fighting':
-          case 'dragon':
-            case 'electric':
+      case 'fighting':
+      case 'dragon':
+      case 'electric':
         className = 'bg-orange-400';
         break;
       case 'grass':
-        case 'poison':
-          case 'bug':
+      case 'poison':
+      case 'bug':
         className = 'bg-green-400';
         break;
 
-        case 'ghost':
-          case 'psychic':
-            case 'dark':
-            case 'normal':
+      case 'ghost':
+      case 'psychic':
+      case 'dark':
+      case 'normal':
         className = ' bg-slate-400';
         break;
-      
-        case 'fairy':
+
+      case 'fairy':
         className = 'bg-pink-400';
         break;
-        case 'ground':
-                case 'rock':
-                  className = 'bg-[#543a29]';
-                  break;        
+      case 'ground':
+      case 'rock':
+        className = 'bg-[#543a29]';
+        break;
       default:
         className = 'bg-black';
         break;
@@ -120,7 +123,11 @@ const PokemonDetails = ({ route, navigation }) => {
   }, [dispatch, url])
 
   if (state.isLoading) {
-    return <View className=" flex justify-center items-center h-[70vh]"><Text className="text-lg font-bold">Loading........</Text></View>;
+    return (
+      <View className=" flex justify-center items-center h-[80vh]">
+      <ActivityIndicator color="#000000" size="large"/>
+      </View>
+      )
   }
 
   if (state.isError) {
@@ -128,98 +135,103 @@ const PokemonDetails = ({ route, navigation }) => {
   }
 
 
-  if (state.data !== null) {
+  if (state.data !== null) {//this condition is used so that the below only returns if state.data is not equal to null so that we dont get the issue that accessing data from undefined below
     const type = state.data.types && state.data.types[0].type.name;
     const gradientColors = getGradientColors(type);
-    
+
 
     return (
       <ScrollView>
-      <View className=' flex'>
-        <LinearGradient
-          colors={gradientColors}
+        <View className=' flex'>
+          <LinearGradient
+            colors={gradientColors}
 
-        >
-          
-          <View className='flex items-center'>
-            <View className="flex items-center w-[100vw] bg-slate-50 mt-3 ">
-          <Text className=' font-bold text-[40px] items-center'>{name}</Text>
-          </View>
-          <View className="flex mt-3 justify-center items-center w-[252px] h-[252px] h-auto bg-white rounded-xl mb-2">
+          >
 
-            <Image
-              className="h-[250px] w-[250px]"
-              source={{ uri: `https://img.pokemondb.net/artwork/${name}.jpg` }}
-              resizeMode="contain"
-            />
-          </View>
-          </View>
-        <View className=" flex justify-center ">
-         
-          <View className="flex flex-row gap-10 justify-center mb-2">
-            {
-              state.data.types.map((type,index) => (
-                <Pressable key={index} className={` h-11 w-[100px] p-2 flex justify-center items-center rounded-xl ${getStyle(type.type.name)}`}><Text className=" text-[18px] text-white">{type.type.name}</Text></Pressable>
-              ))
-            }
-          </View>
-          <View className=" flex items-center w-[100px] bg-slate-50 mb-2">
-          <Text className=" text-lg font-bold ">Abilities: </Text>
-          </View>
-          <View className=" flex items-center">
-            <ScrollView horizontal={true}>
-          <View className="flex flex-row gap-10  mb-2">
-            {
-              state.data.abilities.map((ability, index) => (
-                <Pressable className={` h-11 w-[150px] p-2 flex justify-center items-center rounded-xl ${getStyle(type)}`}>
-                  <Text className=" text-white text-[15px]"key={index}>{ability.ability.name}</Text>
+            <View className='flex items-center'>
+              <View className="flex items-center w-[100vw] bg-slate-50 mt-3 ">
+                <Text className=' font-bold text-[40px] items-center'>{name}</Text>
+              </View>
+              <View className="flex mt-3 justify-center items-center w-[252px] h-[252px] h-auto bg-white rounded-xl mb-2">
+
+                <Image
+                  className="h-[250px] w-[250px]"
+                  source={{ uri: `https://img.pokemondb.net/artwork/${name}.jpg` }}
+                  resizeMode="contain"
+                />
+              </View>
+            </View>
+            <View className=" flex justify-center ">
+
+              <View className="flex flex-row gap-10 justify-center mb-4">
+                {
+                  state.data.types.map((type, index) => (
+                    <Pressable key={index} className={`shadow-custom h-11 w-[100px] p-2 flex justify-center items-center rounded-xl ${getStyle(type.type.name)}`}
+                      onPress={() => {
+                        const typeName = type.type.name;
+
+                        navigation.navigate('Filtered Pokemons', { typeName });
+                      }}><Text className=" text-[18px] text-white">{type.type.name}</Text></Pressable>
+                  ))
+                }
+              </View>
+              <View className=" flex items-center w-[100px] bg-slate-50 mb-4">
+                <Text className=" text-lg font-bold mb-2">Abilities: </Text>
+              </View>
+              <View className=" flex items-center">
+                <ScrollView horizontal={true}>
+                  <View className="flex flex-row gap-10 mb-2">
+                    {
+                      state.data.abilities.map((ability, index) => (
+                        <Pressable key={index} className={` shadow-custom h-11 w-[150px] p-2 flex justify-center items-center rounded-xl ${getStyle(type)}`}>
+                          <Text className=" text-white text-[15px]">{ability.ability.name}</Text>
+                        </Pressable>
+
+                      ))
+                    }
+                  </View>
+                </ScrollView>
+              </View>
+
+              <View className="flex flex-row justify-center mb-4 mt-2">
+
+                <View className="">
+
+                  <Pressable className={`bg-slate-50 h-11 w-[50vw] p-2 flex justify-center items-center ${getStyle(type)}`}>
+
+                    <Text className="text-[15px] font-bold text-white ">{state.data.height} ft</Text>
                   </Pressable>
-
-              ))
-            }
-          </View>
-          </ScrollView>
-          </View>
-       
-          <View className="flex flex-row justify-center mb-2">
-
-            <View className="">
-             
-              <Pressable className={`bg-slate-50 h-11 w-[50vw] p-2 flex justify-center items-center ${getStyle(type)}`}>
-
-                <Text className="text-[15px] font-bold text-white ">{state.data.height} ft</Text>
-              </Pressable>
-            </View>
-            <View className="">
-             
-              <Pressable className={`bg-slate-50 h-11 w-[50vw] p-2 flex justify-center items-center  ${getHeightStyle(type)}`}>
-                <Text className=" text-[15px] font-bold text-white">{state.data.weight} kg</Text>
-              </Pressable>
-            </View>
-
-          </View>
-        </View>
-        <View>
-          <View className=" flex items-center w-[150px] bg-slate-50 mb-2">
-          <Text className=" text-lg font-bold ">Base Stats:</Text>
-          </View>
-          <View className="flex flex-wrap flex-row gap-4 justify-center mb-2">
-            {
-              state.data.stats.map((stat) => (
-                <View className={`${getStyle(type)} h-[90px] w-[90px]  flex gap-1 justify-center items-center rounded-xl`}>
-                  <Text className=" text-white text-[16px] font-bold ">{stat.stat.name}:</Text>
-                  <Pressable >
-                <Text className=" text-white text-[15px] ">{stat.base_stat}</Text>
-              </Pressable>
                 </View>
-              )
+                <View className="">
 
-              )
-            }
-          </View>
+                  <Pressable className={`bg-slate-50 h-11 w-[50vw] p-2 flex justify-center items-center  ${getHeightStyle(type)}`}>
+                    <Text className=" text-[15px] font-bold text-white">{state.data.weight} kg</Text>
+                  </Pressable>
+                </View>
+
+              </View>
+            </View>
+            <View>
+              <View className=" flex items-center w-[150px] bg-slate-50 mb-2">
+                <Text className=" text-lg font-bold ">Base Stats:</Text>
+              </View>
+              <View className="flex flex-wrap flex-row gap-4 justify-center mb-2">
+                {
+                  state.data.stats.map((stat, index) => (
+                    <View key={index} className={` shadow-custom ${getStyle(type)} h-[90px] w-[90px]  flex gap-1 justify-center items-center rounded-xl`}>
+                      <Text className=" text-white text-[16px] font-bold ">{stat.stat.name}:</Text>
+                      <Pressable >
+                        <Text className=" text-white text-[15px] ">{stat.base_stat}</Text>
+                      </Pressable>
+                    </View>
+                  )
+
+                  )
+                }
+              </View>
+            </View>
+          </LinearGradient>
         </View>
-        </LinearGradient>
-      </View>
       </ScrollView>
     )
   }

@@ -1,12 +1,16 @@
 import { ActivityIndicator, Image, Pressable, ScrollView, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPokemonDetails } from '../Features/pokemonDetailsSlice';
 import LinearGradient from 'react-native-linear-gradient';
+import StatBar from './StatBar';
 const PokemonDetails = ({ route, navigation }) => {
-  const { name, url } = route.params;
-  const dispatch = useDispatch();
-  const state = useSelector((state) => state.pokemonDetail)
+  const { name, data } = route.params;
+  const [optionChosen, setOptionChosen] = useState('About');
+  function handlePress(option) {
+    setOptionChosen(option);
+  }
+ 
   const getGradientColors = (type) => {
     switch (type) {
       case 'fire':
@@ -113,30 +117,12 @@ const PokemonDetails = ({ route, navigation }) => {
     }
     return className;
   };
-
-  useEffect(() => {
-
-    if (url) {
-      // console.log(url)
-      dispatch(fetchPokemonDetails(url));
-    }
-  }, [dispatch, url])
-
-  if (state.isLoading) {
-    return (
-      <View className=" flex justify-center items-center h-[80vh]">
-      <ActivityIndicator color="#000000" size="large"/>
-      </View>
-      )
+  function getStyleText(option){
+    return optionChosen===option ?  ' text-black' : 'text-gray-400';
   }
-
-  if (state.isError) {
-    return <Text>Error loading data</Text>;
-  }
-
-
-  if (state.data !== null) {//this condition is used so that the below only returns if state.data is not equal to null so that we dont get the issue that accessing data from undefined below
-    const type = state.data.types && state.data.types[0].type.name;
+  
+  if (data !== null) {//this condition is used so that the below only returns if state.data is not equal to null so that we dont get the issue that accessing data from undefined below
+    const type = data.types && data.types[0].type.name;
     const gradientColors = getGradientColors(type);
 
 
@@ -161,74 +147,119 @@ const PokemonDetails = ({ route, navigation }) => {
                 />
               </View>
             </View>
-            <View className=" flex justify-center ">
-
-              <View className="flex flex-row gap-10 justify-center mb-4">
-                {
-                  state.data.types.map((type, index) => (
-                    <Pressable key={index} className={`shadow-custom h-11 w-[100px] p-2 flex justify-center items-center rounded-xl ${getStyle(type.type.name)}`}
-                      onPress={() => {
-                        const typeName = type.type.name;
-
-                        navigation.navigate('Filtered Pokemons', { typeName });
-                      }}><Text className=" text-[18px] text-white">{type.type.name}</Text></Pressable>
-                  ))
-                }
-              </View>
-              <View className=" flex items-center w-[100px] bg-slate-50 mb-4">
-                <Text className=" text-lg font-bold mb-2">Abilities: </Text>
-              </View>
-              <View className=" flex items-center">
-                <ScrollView horizontal={true}>
-                  <View className="flex flex-row gap-10 mb-2">
-                    {
-                      state.data.abilities.map((ability, index) => (
-                        <Pressable key={index} className={` shadow-custom h-11 w-[150px] p-2 flex justify-center items-center rounded-xl ${getStyle(type)}`}>
-                          <Text className=" text-white text-[15px]">{ability.ability.name}</Text>
-                        </Pressable>
-
-                      ))
-                    }
-                  </View>
-                </ScrollView>
-              </View>
-
-              <View className="flex flex-row justify-center mb-4 mt-2">
-
-                <View className="">
-
-                  <Pressable className={`bg-slate-50 h-11 w-[50vw] p-2 flex justify-center items-center ${getStyle(type)}`}>
-
-                    <Text className="text-[15px] font-bold text-white ">{state.data.height} ft</Text>
-                  </Pressable>
-                </View>
-                <View className="">
-
-                  <Pressable className={`bg-slate-50 h-11 w-[50vw] p-2 flex justify-center items-center  ${getHeightStyle(type)}`}>
-                    <Text className=" text-[15px] font-bold text-white">{state.data.weight} kg</Text>
-                  </Pressable>
-                </View>
-
-              </View>
+            <View className=" flex-row items-center justify-evenly  w-[100%] mt-5 bg-slate-50 mb-4" >
+              <Pressable
+                onPress={() => handlePress('About')}>
+                <Text className={`text-lg font-bold mb-2 mt-2 ${getStyleText('About')} text-gr`}>About</Text></Pressable>
+              <Pressable
+                onPress={() => handlePress('Stats')}>
+                <Text className={`text-lg font-bold mb-2 mt-2 ${getStyleText('Stats')}`}>Stats</Text></Pressable>
+              <Pressable
+                onPress={() => handlePress('Moves')}>
+                <Text className={`text-lg font-bold mb-2 mt-2 ${getStyleText('Moves')}`}>Moves</Text></Pressable>
             </View>
             <View>
-              <View className=" flex items-center w-[150px] bg-slate-50 mb-2">
-                <Text className=" text-lg font-bold ">Base Stats:</Text>
-              </View>
-              <View className="flex flex-wrap flex-row gap-4 justify-center mb-2">
-                {
-                  state.data.stats.map((stat, index) => (
-                    <View key={index} className={` shadow-custom ${getStyle(type)} h-[90px] w-[90px]  flex gap-1 justify-center items-center rounded-xl`}>
-                      <Text className=" text-white text-[16px] font-bold ">{stat.stat.name}:</Text>
-                      <Pressable >
-                        <Text className=" text-white text-[15px] ">{stat.base_stat}</Text>
-                      </Pressable>
+              {
+                optionChosen === 'About' && (
+                  <View className=" flex justify-center ">
+                    <View className=" flex items-center w-[100px] bg-slate-50 mb-4">
+                      <Text className=" text-lg font-bold mb-2">Types: </Text>
                     </View>
-                  )
+                    <View className="flex flex-row gap-10 justify-center mb-4">
+                      {
+                        data.types.map((type, index) => (
+                          <Pressable key={index} className={`shadow-custom h-11 w-[100px] p-2 flex justify-center items-center rounded-xl ${getStyle(type.type.name)}`}
+                            onPress={() => {
+                              const typeName = type.type.name;
 
-                  )
-                }
-              </View>
+                              navigation.navigate('Filtered Pokemons', { typeName });
+                            }}><Text className=" text-[18px] text-white">{type.type.name}</Text></Pressable>
+                        ))
+                      }
+                    </View>
+                    <View className=" flex items-center w-[100px] bg-slate-50 mb-4">
+                      <Text className=" text-lg font-bold mb-2">Abilities: </Text>
+                    </View>
+                    <View className=" flex items-center">
+                      <ScrollView horizontal={true}>
+                        <View className="flex flex-row gap-10 mb-2">
+                          {
+                            data.abilities.map((ability, index) => (
+                              <Pressable key={index} className={` shadow-custom h-11 w-[150px] p-2 flex justify-center items-center rounded-xl ${getStyle(type)}`}>
+                                <Text className=" text-white text-[15px]">{ability.ability.name}</Text>
+                              </Pressable>
+
+                            ))
+                          }
+                        </View>
+                      </ScrollView>
+                    </View>
+
+                    <View className="flex flex-row justify-center mb-4 mt-2">
+
+                      <View className="">
+
+                        <Pressable className={`bg-slate-50 h-11 w-[50vw] p-2 flex justify-center items-center ${getStyle(type)}`}>
+
+                          <Text className="text-[15px] font-bold text-white ">{data.height} ft</Text>
+                        </Pressable>
+                      </View>
+                      <View className="">
+
+                        <Pressable className={`bg-slate-50 h-11 w-[50vw] p-2 flex justify-center items-center  ${getHeightStyle(type)}`}>
+                          <Text className=" text-[15px] font-bold text-white">{data.weight} kg</Text>
+                        </Pressable>
+                      </View>
+
+                    </View>
+
+                  </View>)
+              }
+            </View>
+            <View>{
+              optionChosen === 'Stats' && (
+                <View>
+
+                  <View className=" flex items-center w-[150px] bg-slate-50 mb-2">
+                    <Text className=" text-lg font-bold ">Base Stats:</Text>
+                  </View>
+                  <View className="flex  justify-center mb-2 ml-3">
+                    {
+                      data.stats.map((stat, index) => (
+                        <StatBar key={index} {...stat} type={type}/>
+                        // <View key={index} className={` shadow-custom ${getStyle(type)} h-[90px] w-[90px]  flex gap-1 justify-center items-center rounded-xl`}>
+                        //   <Text className=" text-white text-[16px] font-bold ">{stat.stat.name}:</Text>
+                        //   <Pressable >
+                        //     <Text className=" text-white text-[15px] ">{stat.base_stat}</Text>
+                        //   </Pressable>
+                        // </View>
+                      )
+
+                      )
+                    }
+                  </View>
+
+                </View>)
+            }
+            </View>
+            <View>
+              {
+               optionChosen==='Moves' && (
+                <View>
+                <View className=" flex items-center w-[100px] bg-slate-50 mb-4">
+                      <Text className=" text-xl font-bold mb-2">Moves: </Text>
+                    </View>
+                   
+               <View className="flex-row flex-wrap justify-center items-center gap-2">
+                  {
+                    data.moves.map((move,index)=> (
+                        <Pressable key={index} className={`${getStyle(type)} m-3 w-[90px] h-[90px]   rounded-xl shadow-custom flex  items-center justify-center`}><Text className="text-white font-bold">{move.move.name}</Text></Pressable>
+                    ))
+                  }
+               </View>
+               
+               </View>
+              )}
             </View>
           </LinearGradient>
         </View>

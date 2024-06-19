@@ -5,13 +5,19 @@ import { fetchPokemons } from '../Features/pokemonSlice';
 import PokemonCard from './PokemonCard';
 
 
+
 const Pokemon = ({ navigation }) => {
   const [offset, setOffset] = useState(0);
   const dispatch = useDispatch();
   const state = useSelector((state) => state.fetchPoke)
+  // const[pokemonDet,SetPokemonDet]=useState([]);
+ const info=useSelector((state)=> state.pokemonDetail)
+
   const fetchMoreData = () => {
     if (!state.isListEnd && !state.moreLoading) {//here it checks if the moreLoading and isListEnd is false in state and then updates offset value otherwise it stops
       const newOffset = offset + 6;
+      
+      
       setOffset(newOffset);
       //  console.log(offset);
     }
@@ -38,7 +44,7 @@ const Pokemon = ({ navigation }) => {
   if (state.isError) {
     return <Text>Error loading data</Text>;
   }
-
+  
   return (
     <View>
 
@@ -48,10 +54,11 @@ const Pokemon = ({ navigation }) => {
         <FlatList
           numColumns={2}
           data={state.data}
-          // keyExtractor={item => item.name} removed this line as it was giving warning that 2 or more childs have same key
+          // keyExtractor={item => item.name} 
+          // removed this line as it was giving warning that 2 or more childs have same key
           renderItem={({ item }) => {
 
-            return <PokemonCard {...item} navigation={navigation} />
+            return <PokemonCard key={item.name} {...item} navigation={navigation} />
 
           }}
           onEndReachedThreshold={0.2}//here point 0.2 means that onEndReached will be triggered when we reach within 20% bottom of the list

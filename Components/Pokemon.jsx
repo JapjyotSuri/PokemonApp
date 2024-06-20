@@ -10,16 +10,14 @@ const Pokemon = ({ navigation }) => {
   const [offset, setOffset] = useState(0);
   const dispatch = useDispatch();
   const state = useSelector((state) => state.fetchPoke)
-  // const[pokemonDet,SetPokemonDet]=useState([]);
+ 
  const info=useSelector((state)=> state.pokemonDetail)
 
   const fetchMoreData = () => {
     if (!state.isListEnd && !state.moreLoading) {//here it checks if the moreLoading and isListEnd is false in state and then updates offset value otherwise it stops
       const newOffset = offset + 6;
-      
-      
       setOffset(newOffset);
-      //  console.log(offset);
+     
     }
 
   }

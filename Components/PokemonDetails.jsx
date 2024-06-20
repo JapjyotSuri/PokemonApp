@@ -1,7 +1,5 @@
 import { ActivityIndicator, Image, Pressable, ScrollView, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchPokemonDetails } from '../Features/pokemonDetailsSlice';
 import LinearGradient from 'react-native-linear-gradient';
 import StatBar from './StatBar';
 const PokemonDetails = ({ route, navigation }) => {
@@ -124,8 +122,6 @@ const PokemonDetails = ({ route, navigation }) => {
   if (data !== null) {//this condition is used so that the below only returns if state.data is not equal to null so that we dont get the issue that accessing data from undefined below
     const type = data.types && data.types[0].type.name;
     const gradientColors = getGradientColors(type);
-
-
     return (
       <ScrollView>
         <View className=' flex'>
@@ -227,12 +223,6 @@ const PokemonDetails = ({ route, navigation }) => {
                     {
                       data.stats.map((stat, index) => (
                         <StatBar key={index} {...stat} type={type}/>
-                        // <View key={index} className={` shadow-custom ${getStyle(type)} h-[90px] w-[90px]  flex gap-1 justify-center items-center rounded-xl`}>
-                        //   <Text className=" text-white text-[16px] font-bold ">{stat.stat.name}:</Text>
-                        //   <Pressable >
-                        //     <Text className=" text-white text-[15px] ">{stat.base_stat}</Text>
-                        //   </Pressable>
-                        // </View>
                       )
 
                       )

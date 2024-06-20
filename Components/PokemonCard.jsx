@@ -131,34 +131,25 @@ const PokemonCard = ({ name, url, navigation, pokemonDet }) => {
           </View>
           </View>
           <View className="flex flex-row justify-center items-center">
-            <View className="ml-2">
+            <View className="ml-2 ">
               {
-                data === null ? (<Text>Loading</Text>) : (data.types.map((type) => {
-                  return <Pressable className={`${getbtnStyle(type.type.name)} mb-4 rounded-xl w-[60px] h-[30px] flex justify-center items-center`}><Text className="text-[16px] text-white">{type.type.name}</Text></Pressable>
+                data === null ? (<Text>Loading</Text>) : (data.types.map((type,index) => {
+                  return <Pressable key={index} className={`${getbtnStyle(type.type.name)} mb-2 rounded-xl w-[60px] h-[30px] flex justify-center items-center `} 
+                  onPress={()=> {
+                    const typeName=type.type.name;
+                    navigation.navigate('Filtered Pokemons', {typeName})}
+                  }
+                  >
+                    <Text className="text-[16px] text-white">{type.type.name}</Text>
+                    </Pressable>
                 }))
               }
             </View>
-            {/* {
-                pokemonDet.map((pokemon)=>{
-                  if(pokemon.name=== name){
-                      return <View>
-                        {
-                          pokemon.data.types.map((type)=>{
-                             return <Pressable className="bg-slate-400 mb-4"><Text className="text-[16px]">{type.type.name}</Text></Pressable>
-                          })
-                        }
-                      </View>
-                  }
-                }
-                   
-                )
-                
-                
-              } */}
-          
+           
+          <View className=" flex justify-center items-center">
           <Image className="w-[100px] h-[100px]" source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${url.split('/')[6]}.png` }} resizeMode='contain' />
 
-          
+          </View>
         </View>
         </View>
       </Pressable>

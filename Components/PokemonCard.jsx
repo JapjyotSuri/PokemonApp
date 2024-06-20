@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { addFavourite, removeFavourite } from '../Features/favouritesSlice';
 import { fetchPokemonDetails } from '../Features/pokemonDetailsSlice';
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 const PokemonCard = ({ name, url, navigation, pokemonDet }) => {
   const dispatch = useDispatch();
   const favourite = useSelector((state) => state.favourite.favouritePokemons)
@@ -20,6 +21,58 @@ const PokemonCard = ({ name, url, navigation, pokemonDet }) => {
       }
     })
   }, [name])
+
+const getIcon= (type) => {
+  let iconName='';
+  switch(type){
+    case 'fire':
+      iconName='fire';
+      break;
+    case 'water':
+      iconName='tint';
+      break;
+    case 'grass':
+      iconName='leaf';
+      break;
+      case 'electric':
+        iconName='bolt';
+        break;
+      case 'psychic':
+          iconName='eye';
+          break;
+      case 'ice':
+            iconName='snowflake-o';
+            break;
+      case 'dragon':
+              iconName='dragon';
+              break;   
+      case 'dark':
+                iconName='moon-o';
+                break;
+      case 'bug':
+        iconName='bug';
+        break;
+        case 'poison':
+          iconName='flask';
+          break; 
+          case 'ground':
+            
+            iconName='globe';
+            break; 
+      case 'fairy':
+        iconName='magic';
+        break;
+        case 'rock':
+          iconName='cube';
+          break;
+      default :
+       iconName='street-view';
+      break;
+
+  }
+  return iconName;
+};
+
   const getStyle = (type) => {
     let className = '';
     switch (type) {
@@ -102,12 +155,13 @@ const PokemonCard = ({ name, url, navigation, pokemonDet }) => {
     return className;
   };
   if(data!==null) {
+    
   return (
-    <View className="m-3 w-[165px] h-[150px]  bg-white rounded-xl shadow-custom flex  items-center">
+    <View className="m-2 ml-1 w-[180px] h-[150px]  bg-white rounded-xl shadow-custom flex  items-center">
       <Pressable onPress={() => {
         // console.log('clicked')
         navigation.navigate('Pokemon Details', { name, data })
-      }} className={`rounded-xl w-[165px] h-[150px] ${getStyle(data.types[0].type.name)}`}>
+      }} className={`rounded-xl w-[180px] h-[150px] ${getStyle(data.types[0].type.name)}`}>
         <View className="flex  justify-center items-center mt-5">
           <View className="flex flex-row   mt-50 gap-4">
           <Text className=" text-[20px] font-bold text-white">{name}</Text>
@@ -134,13 +188,13 @@ const PokemonCard = ({ name, url, navigation, pokemonDet }) => {
             <View className="ml-2 ">
               {
                 data === null ? (<Text>Loading</Text>) : (data.types.map((type,index) => {
-                  return <Pressable key={index} className={`${getbtnStyle(type.type.name)} mb-2 rounded-xl w-[60px] h-[30px] flex justify-center items-center `} 
+                  return <Pressable key={index} className={`${getbtnStyle(type.type.name)} mb-2 ml-6 rounded-xl w-[80px] h-[30px] flex justify-center items-center `} 
                   onPress={()=> {
                     const typeName=type.type.name;
                     navigation.navigate('Filtered Pokemons', {typeName})}
                   }
                   >
-                    <Text className="text-[16px] text-white">{type.type.name}</Text>
+                    <Text className="text-[16px] text-white"><FontAwesome name={getIcon(type.type.name)} size={17} color="white" /> {type.type.name}</Text>
                     </Pressable>
                 }))
               }

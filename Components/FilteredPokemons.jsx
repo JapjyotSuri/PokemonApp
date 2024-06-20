@@ -42,7 +42,7 @@ function loadMoreData(){
   if (state.data.length !== 0) {
     return (
        <View className="w-[100vw]">
-        <View className="flex flex-row flex-wrap justify-center items-center ">
+        <View className="m-2 flex flex-row flex-wrap justify-center items-center ">
         <FlatList 
          numColumns={2}
         data={dataShown}
@@ -50,22 +50,13 @@ function loadMoreData(){
        
         onEndReached={loadMoreData}
         onEndReachedThreshold={0.2}
-        ListFooterComponent={() =>
+        ListFooterComponent={() =>//when data is being loaded this loader appears at the bottom
           offset < state.data.length && (
             <ActivityIndicator color="#000000" size="large" />
           )
         }
         >
-        
-
         </FlatList>
-        {/* <View className="flex flex-row flex-wrap justify-center items-center">
-          {
-            state.data.map((pokemon, index) => {
-              return <PokemonCard key={index} {...pokemon.pokemon} navigation={navigation} />
-            })
-          }
-        </View> */}
         </View>
         </View>
     )
